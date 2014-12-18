@@ -1,0 +1,98 @@
+<h1 style="text-align: center"><span class="pimary"><b>Skyscanner</b></span></h1>
+<% @skyscan.each do |sc| %>
+	<% ori = sc.pricingsession["Places"].find {|l| l["Id"] == sc.pricingsession["Query"]["OriginPlace"].to_i} %>
+	<% des = sc.pricingsession["Places"].find {|l| l["Id"] == sc.pricingsession["Query"]["DestinationPlace"].to_i} %>
+	<h1 style="text-align: center">FROM: <b><%= ori["Name"] %></b> To: <b><%= des["Name"] %></b> </h1>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><h3>OutBound</h3></th>
+				<th><h3>InBound</h3></th>
+				<th><h3>Prices</h3></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% sc.pricingsession["Itineraries"].each do |iti| %>
+			<% legOut = sc.pricingsession["Legs"].find {|l| l["Id"] == iti["OutboundLegId"]} %>
+			<% legIn = sc.pricingsession["Legs"].find {|l| l["Id"] == iti["InboundLegId"]} %>
+				<tr>
+					<td>
+						<table class="table table-bordered">
+							<thead>
+								<th>OriginStation</th>
+								<th>DestinationStation</th>
+								<th>Departure</th>
+								<th>Arrival</th>
+								<th>Duration</th>
+								<th>JourneyMode</th>
+								<th>Stops</th>
+								<th>Carriers</th>
+							</thead>
+							<tbody>
+								<td><%= ori["Code"] %></td>
+								<td><%= des["Code"] %></td>
+								<td><%= legOut["Departure"] %></td>
+								<td><%= legOut["Arrival"] %></td>
+								<td><%= legOut["Duration"] %></td>
+								<td><%= legOut["JourneyMode"] %></td>
+								<td><%= legOut["Stops"].length %></td>
+								<td>
+									<% legOut["Carriers"].each do |cr| %>
+										<%= carrier = sc.pricingsession["Carriers"].find {|l| l["Id"] == cr}["Code"] %> <br>
+									<% end %>
+								</td>
+							</tbody>
+						</table>
+					</td>
+					<td>
+						<table class="table table-bordered">
+							<thead>
+								<th>OriginStation</th>
+								<th>DestinationStation</th>
+								<th>Departure</th>
+								<th>Arrival</th>
+								<th>Duration</th>
+								<th>JourneyMode</th>
+								<th>Stops</th>
+								<th>Carriers</th>
+							</thead>
+							<tbody>
+								<td><%= ori["Code"] %></td>
+								<td><%= des["Code"] %></td>
+								<td><%= legIn["Departure"] %></td>
+								<td><%= legIn["Arrival"] %></td>
+								<td><%= legIn["Duration"] %></td>
+								<td><%= legIn["JourneyMode"] %></td>
+								<td><%= legIn["Stops"].length %></td>
+								<td>
+									<% legIn["Carriers"].each do |cr| %>
+										<%= carrier = sc.pricingsession["Carriers"].find {|l| l["Id"] == cr}["Code"] %> <br>
+									<% end %>
+								</td>
+							</tbody>
+						</table>
+					</td>
+					<td>
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<% iti["PricingOptions"].each do |po|%>
+										<% agent = sc.pricingsession["Agents"].find {|l| l["Id"] == po["Agents"][0]} %>
+										<td><%= agent["Name"] %></td>
+									<% end %>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<% iti["PricingOptions"].each do |po|%>
+										<td><%= po["Price"] %> <%= sc.pricingsession["Query"]["Currency"] %></td>
+									<% end %>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

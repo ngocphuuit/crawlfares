@@ -1,0 +1,132 @@
+<h1 style="text-align: center"><span class="pimary"><b>Wan Travel</b></span></h1>
+<% @airfares.each do |airfare| %>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th colspan="7"style="text-align: center">
+					<h2>ROUTES: From <%= airfare.search["trips"][0]["departure_code"] %>(<%= airfare.search["trips"][0]["departure_name"] %>) To <%= airfare.search["trips"][0]["arrival_code"] %>(<%= airfare.search["trips"][0]["arrival_name"] %>)
+					</h2>
+				</th>
+			</tr>
+		</thead>
+		<tr>
+			<th>departure_name</th>
+			<th>arrival_name</th>
+			<th>outbound_date</th>
+			<th>inbound_date</th>
+			<th>cabin</th>
+			<th>adults_count</th>
+			<th>created_at</th>
+		</tr>
+		<tr>
+			<td><%= airfare.search["trips"][0]["departure_name"] %></td>
+			<td><%= airfare.search["trips"][0]["arrival_name"] %></td>
+			<td><%= airfare.search["trips"][0]["outbound_date"] %></td>
+			<td><%= airfare.search["trips"][0]["inbound_date"] %></td>
+			<td><%= airfare.search["cabin"] %></td>
+			<td><%= airfare.search["adults_count"] %></td>
+			<td><%= airfare.search["created_at"] %></td>
+			</tr>
+		<tr colspan = "7">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th style="text-align: center"><h3>OutBound</h3></th>
+						<th style="text-align: center"><h3>InBound</h3></th>
+						<th style="text-align: center"><h3>Fare Price</h3></th>
+					</tr>
+				</thead>
+				<%airfare.detail.each do |fare|%>
+					<tr>
+						<td>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>departure_code</th>
+										<th>arrival_code</th>
+										<th>departure_time</th>
+										<th>arrival_time</th>
+										<th>designator_code</th>
+										<th>airline_code</th>
+										<th>departure_name</th>
+										<th>arrival_name</th>
+										<th>airline_name</th>
+									</tr>
+								</thead>
+								<% fare["outbound_segments"].each do |ob| %>
+									<tr>
+										<td><%= ob["departure_code"] %></td>
+										<td><%= ob["arrival_code"] %></td>
+										<td><%= ob["departure_time"] %></td>
+										<td><%= ob["arrival_time"] %></td>
+										<td><%= ob["designator_code"] %></td>
+										<td><%= ob["airline_code"] %></td>
+										<td><%= ob["departure_name"] %></td>
+										<td><%= ob["arrival_name"] %></td>
+										<td><%= ob["airline_name"] %></td>
+									</tr>
+								<%end%>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>departure_code</th>
+										<th>arrival_code</th>
+										<th>departure_time</th>
+										<th>arrival_time</th>
+										<th>designator_code</th>
+										<th>airline_code</th>
+										<th>departure_name</th>
+										<th>arrival_name</th>
+										<th>airline_name</th>
+									</tr>
+								</thead>
+								<% fare["inbound_segments"].each do |ib| %>
+									<tr>
+										<td><%= ib["departure_code"] %></td>
+										<td><%= ib["arrival_code"] %></td>
+										<td><%= ib["departure_time"] %></td>
+										<td><%= ib["arrival_time"] %></td>
+										<td><%= ib["designator_code"] %></td>
+										<td><%= ib["airline_code"] %></td>
+										<td><%= ib["departure_name"] %></td>
+										<td><%= ib["arrival_name"] %></td>
+										<td><%= ib["airline_name"] %></td>
+									</tr>
+								<%end%>
+							</table>
+						</td>
+						<td>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>price</th>
+										<th>description</th>
+										<th>provider_code</th>
+										<th>trip_id</th>
+										<th>route</th>
+										<th>search_id</th>
+										<th>fare_id</th>
+									</tr>
+								</thead>
+								<% fare["fares"].each do |fr| %>
+									<tr>
+										<td><%= fr["price"] %></td>
+										<td><%= fr["description"] %></td>
+										<td><%= fr["provider_code"] %></td>
+										<td><%= fr["deeplink_params"]["trip_id"] %></td>
+										<td><%= fr["deeplink_params"]["route"] %></td>
+										<td><%= fr["deeplink_params"]["search_id"] %></td>
+										<td><%= fr["deeplink_params"]["fare_id"] %></td>
+									</tr>
+								<%end%>
+							</table>
+						</td>
+					</tr>
+				<% end %>
+			</table>
+		</tr>
+	</table>
+<% end %>

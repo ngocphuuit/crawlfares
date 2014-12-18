@@ -1,0 +1,82 @@
+<% @airfares.each do |airfare| %>
+<table border="1">
+	<tr>
+		<th>departure_name</th>
+		<th>arrival_name</th>
+		<th>outbound_date</th>
+		<th>inbound_date</th>
+		<th>cabin</th>
+		<th>adults_count</th>
+		<th>created_at</th>
+	</tr>
+	<tr>
+		<td><%= airfare.search["trips"][0]["departure_name"] %></td>
+		<td><%= airfare.search["trips"][0]["arrival_name"] %></td>
+		<td><%= airfare.search["trips"][0]["outbound_date"] %></td>
+		<td><%= airfare.search["trips"][0]["inbound_date"] %></td>
+		<td><%= airfare.search["cabin"] %></td>
+		<td><%= airfare.search["adults_count"] %></td>
+		<td><%= airfare.search["created_at"] %></td>
+	</tr>
+		<%airfare.detail.each do |fare|%>
+			<tr>
+				<td colspan="3">
+					<table border="1">
+						<tr>
+							<th>departure_code</th>
+							<th>arrival_code</th>
+							<th>departure_time</th>
+							<th>arrival_time</th>
+							<th>designator_code</th>
+							<th>airline_code</th>
+							<th>departure_name</th>
+							<th>arrival_name</th>
+							<th>airline_name</th>
+						</tr>
+						<% fare["outbound_segments"].each do |ob| %>
+							<tr>
+								<td><%= ob["departure_code"] %></td>
+								<td><%= ob["arrival_code"] %></td>
+								<td><%= ob["departure_time"] %></td>
+								<td><%= ob["arrival_time"] %></td>
+								<td><%= ob["designator_code"] %></td>
+								<td><%= ob["airline_code"] %></td>
+								<td><%= ob["departure_name"] %></td>
+								<td><%= ob["arrival_name"] %></td>
+								<td><%= ob["airline_name"] %></td>
+							</tr>
+						<%end%>
+					</table>
+				</td>
+				<td colspan="4">
+					<table border="1">
+						<tr>
+							<th>departure_code</th>
+							<th>arrival_code</th>
+							<th>departure_time</th>
+							<th>arrival_time</th>
+							<th>designator_code</th>
+							<th>airline_code</th>
+							<th>departure_name</th>
+							<th>arrival_name</th>
+							<th>airline_name</th>
+						</tr>
+						<% fare["inbound_segments"].each do |ib| %>
+							<tr>
+								<td><%= ib["departure_code"] %></td>
+								<td><%= ib["arrival_code"] %></td>
+								<td><%= ib["departure_time"] %></td>
+								<td><%= ib["arrival_time"] %></td>
+								<td><%= ib["designator_code"] %></td>
+								<td><%= ib["airline_code"] %></td>
+								<td><%= ib["departure_name"] %></td>
+								<td><%= ib["arrival_name"] %></td>
+								<td><%= ib["airline_name"] %></td>
+							</tr>
+						<%end%>
+					</table>
+				</td>
+			</tr>
+		<%end%>
+	</table>
+<% end %>
